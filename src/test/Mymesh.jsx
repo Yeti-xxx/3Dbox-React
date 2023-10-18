@@ -1,21 +1,21 @@
-import React, { memo, useEffect, useRef } from 'react'
-import { GUI } from 'dat.gui';
-import { useFrame } from '@react-three/fiber';
+import React, { Suspense, memo} from 'react'
+import { useGLTF,Clone} from '@react-three/drei';
+import { modelArr } from '../utils/gltf';
 const Mymesh = memo(() => {
-    const meshRef = useRef();
-    useEffect(() => {
-        const gui = new GUI();
-        console.log(meshRef.current);
-        gui.add(meshRef.current.position, 'x', -5, 5)
-    })
-
-
+    const { scene } = useGLTF(modelArr[0].source)
     return (
-        <mesh ref={meshRef}>
-            <boxGeometry args={[2, 2, 2]} />
-            <meshStandardMaterial />
-        </mesh>
+        <Suspense>
+            <Clone object={scene} />
+        </Suspense>
     )
 })
 
 export default Mymesh
+
+
+
+
+
+
+
+

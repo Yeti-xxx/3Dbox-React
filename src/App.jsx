@@ -1,9 +1,11 @@
 import React, { memo } from 'react'
-import Test from './test/test'
+import MyCanvas from './BaseComponent/MyCanvas/index'
+import AssetsCard from './Panel/AssetsCard/index'
 const App = memo(() => {
   return (
     <div>
-      {/* <Test/> */}
+      <AssetsCard/>
+      <MyCanvas/>
     </div>
   )
 })
