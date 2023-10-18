@@ -13,7 +13,6 @@ const index = memo(() => {
                     <gridHelper args={[10000, 10000, '#903c48', '#4d4d4d']} />
                     <OrbitControls />
                     <Mymesh></Mymesh>
-                    <TestMesh></TestMesh>
                     <ambientLight color="weight"  intensity={1}/>
                 </Canvas>
             </div>
