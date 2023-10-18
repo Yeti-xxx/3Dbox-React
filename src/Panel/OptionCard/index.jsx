@@ -1,10 +1,16 @@
 import PropTypes from 'prop-types'
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { OptionCardWrapper } from './style'
+import { shallowEqual, useSelector, useDispatch } from 'react-redux'
 import Param from '../../component/Param/index'
+import { changeShowParamsAction } from '../../store/modules/control'
 // 选项信息卡，用于模型具体数值输入
 const style = memo((props) => {
-    const { showCard = false,
+    const { showParams } = useSelector((state) => ({
+        showParams: state.control.showParams
+    }), shallowEqual)
+    const dispatch = useDispatch()
+    const {
         cubeObj = {
             // 立方体
             Geometry: 'BoxGeometry',
@@ -13,8 +19,12 @@ const style = memo((props) => {
             construc: ['width-宽度', 'height-高度', 'depth-深度'],
             imgSrc: '../../public/cuebImgSelection/BoxGeometry.jpg'
         } } = props
+    const createClick = useCallback(() => {
+        // 关闭当前组件
+        dispatch(changeShowParamsAction(false))
+    }, [])
     return (
-        <OptionCardWrapper>
+        showParams && <OptionCardWrapper>
             <div className="container">
                 <div className="cardContext">
                     <div className="title">
@@ -27,12 +37,12 @@ const style = memo((props) => {
                             cubeObj.construc.map(item => {
                                 const newItme = item.split('-')
                                 return (
-                                    <Param title={newItme[1]} key={item}/>
+                                    <Param title={newItme[1]} key={item} />
                                 )
                             })
                         }
                     </div>
-                    <div className="createBtn">
+                    <div className="createBtn" onClick={e => createClick()}>
                         create
                     </div>
                 </div>
