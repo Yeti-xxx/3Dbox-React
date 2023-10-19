@@ -12,7 +12,6 @@ const index = memo(() => {
                 <Canvas camera={{ position: [5, 5, 5] }}>
                     <gridHelper args={[10000, 10000, '#903c48', '#4d4d4d']} />
                     <OrbitControls />
-                    <Mymesh></Mymesh>
                     <ambientLight color="weight"  intensity={1}/>
                 </Canvas>
             </div>

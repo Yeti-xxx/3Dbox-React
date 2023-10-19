@@ -1,32 +1,31 @@
 import PropTypes from 'prop-types'
 import { Canvas } from '@react-three/fiber'
-import React, { memo, useCallback, useRef } from 'react'
-import { AssetsTabWrapper } from './style'
-import MyGltf from '../../../BaseComponent/MyGltf/index'
-import { changeShowParamsAction } from '../../../store/modules/control'
+import React, { memo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { AssetsTabWrapper } from './style'
+// 组件引入
+import MyGltf from '../../../BaseComponent/MyGltf/index'
+import Mymesh from '../../../BaseComponent/Mymesh/Mymesh'
+// 引入Action
+import { changeShowParamsAction} from '../../../store/modules/control'
+import {changToParamObjAction } from '../../../store/modules/cube'
 const index = memo((props) => {
+    // 接收父组件传来的cube信息
+    const { Obj } = props
     const dispatch = useDispatch()
     // 单击模型事件
     const ClickHandle = useCallback(() => {
         dispatch(changeShowParamsAction(true))
+        dispatch(changToParamObjAction(Obj))
+
     }, [])
-    // 接收父组件传来的cube信息
-    const { Obj } = props
-    const meshRef = useRef()
     return (
         <AssetsTabWrapper>
             <div className="cube" onClick={ClickHandle}>
                 <Canvas camera={{ position: [2, 2, 2] }}>
                     {
                         Obj.type === 'Geometry' ?
-                            <mesh ref={meshRef}>
-                                {
-                                    <Obj.Geometry></Obj.Geometry>
-                                }
-                                <meshStandardMaterial />
-                                <ambientLight color="skyblue" />
-                            </mesh> : <MyGltf Obj={Obj}/>
+                            <Mymesh MeshObj={Obj} guiShow={false} /> : <MyGltf Obj={Obj} />
                     }
                 </Canvas>
             </div>

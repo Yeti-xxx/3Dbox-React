@@ -6,35 +6,28 @@ import Param from '../../component/Param/index'
 import { changeShowParamsAction } from '../../store/modules/control'
 // 选项信息卡，用于模型具体数值输入
 const style = memo((props) => {
-    const { showParams } = useSelector((state) => ({
-        showParams: state.control.showParams
+    const { showParams, toParamObj } = useSelector((state) => ({
+        showParams: state.control.showParams,
+        toParamObj: state.cube.toParamObj
     }), shallowEqual)
     const dispatch = useDispatch()
-    const {
-        cubeObj = {
-            // 立方体
-            Geometry: 'BoxGeometry',
-            type: 'Geometry',
-            name: '立方体',
-            construc: ['width-宽度', 'height-高度', 'depth-深度'],
-            imgSrc: '../../public/cuebImgSelection/BoxGeometry.jpg'
-        } } = props
     const createClick = useCallback(() => {
         // 关闭当前组件
         dispatch(changeShowParamsAction(false))
     }, [])
     return (
-        showParams && <OptionCardWrapper>
+        // GLTF模型直接忽略创建参数
+        showParams && toParamObj.type !== 'GLTF' && <OptionCardWrapper>
             <div className="container">
                 <div className="cardContext">
                     <div className="title">
                         {
-                            cubeObj.name
+                            toParamObj.name
                         }
                     </div>
                     <div className="paramsContext">
                         {
-                            cubeObj.construc.map(item => {
+                            toParamObj.construc.map(item => {
                                 const newItme = item.split('-')
                                 return (
                                     <Param title={newItme[1]} key={item} />

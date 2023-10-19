@@ -1,4 +1,5 @@
 export const MeshArray = [
+    // 自带基础模型的数据信息
     {
         // 立方体
         Geometry: 'BoxGeometry',

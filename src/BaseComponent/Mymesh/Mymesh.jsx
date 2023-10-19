@@ -1,21 +1,24 @@
 import React, { memo, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { GUI } from 'dat.gui';
+import { MeshArray } from '../../utils/MeshArraySelection'
 const Mymesh = memo((props) => {
-    const {Mymesh} = props
+    const { MeshObj = MeshArray[0], guiShow = true } = props
     const meshRef = useRef();
     useEffect(() => {
-        const gui = new GUI();
-        gui.add(meshRef.current.position, 'x', -5, 5)
-    },[Mymesh])
+        if (guiShow) {
+            const gui = new GUI();
+        }
+    }, [MeshObj])
     return (
         <mesh ref={meshRef}>
-            <boxGeometry args={[2, 2, 2]} />
+            <MeshObj.Geometry/>
             <meshStandardMaterial />
         </mesh>
     )
 })
 Mymesh.propTypes = {
-    MeshObj:PropTypes.object
+    MeshObj: PropTypes.object,
+    guiShow: PropTypes.bool
 }
 export default Mymesh
