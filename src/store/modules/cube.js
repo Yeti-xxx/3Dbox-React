@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const cubeSlice = createSlice({
     name: 'cube',
     initialState: {
@@ -12,7 +11,13 @@ const cubeSlice = createSlice({
     },
     reducers: {
         changeCubeArrayAction(state, { payload }) {
-            state.cubeArray = payload
+            state.cubeArray.push([])
+            payload.map(item => {
+                // 传入cube参数
+                state.cubeArray[state.cubeArray.length - 1].push(item)
+            })
+            // 传入需要创建的cube类型
+            state.cubeArray[state.cubeArray.length - 1].push(state.toParamObj)
         },
         changToParamObjAction(state, { payload }) {
             state.toParamObj = payload

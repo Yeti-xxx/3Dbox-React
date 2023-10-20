@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import React, { memo, useCallback, useState } from 'react'
+import React, { forwardRef, memo, useCallback, useState } from 'react'
 import { ParamWrapper } from './style'
 // name + input 组件
-const index = memo((props) => {
+const index = forwardRef((props, ref) => {
     const { title } = props
     const [inputValue, setInputValue] = useState(1)
     // 向外暴露用于获取值的方法
@@ -22,7 +22,7 @@ const index = memo((props) => {
             <div className="params">
                 <div className="name" onClick={getInputCode}>{title}</div>
                 <div className="input" onChange={handleInputChange}>
-                    <input type="text" />
+                    <input type="text" ref={ref}/>
                 </div>
             </div>
         </ParamWrapper>

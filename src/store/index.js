@@ -5,8 +5,10 @@ const store = configureStore({
     reducer: {
         control: controlReducer,
         cube: cubeReducer
-        
-    }
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false
+    })
 })
 
 export default store

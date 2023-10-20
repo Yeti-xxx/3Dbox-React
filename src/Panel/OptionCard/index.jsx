@@ -1,23 +1,31 @@
 import PropTypes from 'prop-types'
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useRef } from 'react'
 import { OptionCardWrapper } from './style'
 import { shallowEqual, useSelector, useDispatch } from 'react-redux'
 import Param from '../../component/Param/index'
 import { changeShowParamsAction } from '../../store/modules/control'
+import { changeCubeArrayAction } from '../../store/modules/cube'
 // 选项信息卡，用于模型具体数值输入
 const style = memo((props) => {
-    const { showParams, toParamObj } = useSelector((state) => ({
+    const { toParamObj } = useSelector((state) => ({
         showParams: state.control.showParams,
         toParamObj: state.cube.toParamObj
     }), shallowEqual)
+    const ParamRefArray = useRef([])
     const dispatch = useDispatch()
     const createClick = useCallback(() => {
         // 关闭当前组件
         dispatch(changeShowParamsAction(false))
+        // 向cubearray传入设定参数
+        dispatch(changeCubeArrayAction(ParamRefArray.current))
     }, [])
+    const pushParamRef = (dom) => {
+        // 向子组件直接传函数，获取的dom参数就是子组件内部的ref
+        ParamRefArray.current.push(dom)
+    }
     return (
         // GLTF模型直接忽略创建参数
-        showParams && toParamObj.type !== 'GLTF' && <OptionCardWrapper>
+        toParamObj.type !== 'GLTF' && <OptionCardWrapper>
             <div className="container">
                 <div className="cardContext">
                     <div className="title">
@@ -30,7 +38,7 @@ const style = memo((props) => {
                             toParamObj.construc.map(item => {
                                 const newItme = item.split('-')
                                 return (
-                                    <Param title={newItme[1]} key={item} />
+                                    <Param title={newItme[1]} key={item} ref={pushParamRef} />
                                 )
                             })
                         }
