@@ -5,19 +5,15 @@ import Mymesh from '../Mymesh/Mymesh'
 import TestMesh from '../../test/Mymesh'
 import { MyCanvasWrapper } from './style'
 import { shallowEqual, useSelector } from 'react-redux'
-import { v4 as uuidv4 } from 'uuid'
 const index = memo(() => {
     //获取cubeArray
-    const { cubeArray} = useSelector((state) => ({
+    const { cubeArray } = useSelector((state) => ({
         cubeArray: state.cube.cubeArray,
     }), shallowEqual)
     const [cubeArrayState, setCubeArrayState] = useState([])
     // 监听cubeArray
     useEffect(() => {
         const newArray = filterCubeArray(cubeArray);
-        // newArray.map(item => {
-        //     setCubeArrayState([...res, item])
-        // })
         setCubeArrayState([...newArray])
     }, [cubeArray])
     // cubeArray结构相对复杂，在本组件内新建一个状态接收处理后的数据
@@ -46,11 +42,9 @@ const index = memo(() => {
                     <OrbitControls />
                     <ambientLight color="weight" intensity={1} />
                     {
-                        cubeArrayState.map(item => {
-                                // uuid
-                            const newUUID = uuidv4()
+                        cubeArrayState.map((item,i) => {
                             return (
-                                <Mymesh MeshObj={item} key={newUUID}></Mymesh>
+                                <Mymesh MeshObj={item} key={i}></Mymesh>
                             )
                         })
                     }

@@ -5,6 +5,7 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux'
 import Param from '../../component/Param/index'
 import { changeShowParamsAction } from '../../store/modules/control'
 import { changeCubeArrayAction } from '../../store/modules/cube'
+import { v4 as uuidv4 } from 'uuid'
 // 选项信息卡，用于模型具体数值输入
 const style = memo((props) => {
     const { toParamObj } = useSelector((state) => ({
@@ -14,6 +15,7 @@ const style = memo((props) => {
     const ParamRefArray = useRef([])
     const dispatch = useDispatch()
     const createClick = useCallback(() => {
+        ParamRefArray.current.push({ uuid: uuidv4() })
         // 关闭当前组件
         dispatch(changeShowParamsAction(false))
         // 向cubearray传入设定参数
