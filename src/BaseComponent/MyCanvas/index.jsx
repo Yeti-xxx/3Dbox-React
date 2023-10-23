@@ -1,14 +1,17 @@
 import { Canvas } from '@react-three/fiber'
 import React, { memo, useCallback, useEffect, useState } from 'react'
-import { OrbitControls, useSelect } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import Mymesh from '../Mymesh/Mymesh'
 import TestMesh from '../../test/Mymesh'
 import { MyCanvasWrapper } from './style'
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { changeToMeshGlobaArray } from '../../store/modules/cube'
 const index = memo(() => {
+    const dispatch = useDispatch()
     //获取cubeArray
-    const { cubeArray } = useSelector((state) => ({
+    const { cubeArray, meshGlobalArray } = useSelector((state) => ({
         cubeArray: state.cube.cubeArray,
+        meshGlobalArray: state.cube.meshGlobalArray
     }), shallowEqual)
     const [cubeArrayState, setCubeArrayState] = useState([])
     // 监听cubeArray
@@ -30,7 +33,11 @@ const index = memo(() => {
             temp.push(cubeObj)
             item.map(item2 => {
                 item2.Geometry ? temp[temp.length - 1].Geometry = item2.Geometry : temp[temp.length - 1].args.push(item2.value)
+                if (item2.uuid) {
+                    temp[temp.length - 1].uuid = item2.uuid
+                }
             })
+            dispatch(changeToMeshGlobaArray(temp))
         })
         return temp
     })
@@ -42,9 +49,9 @@ const index = memo(() => {
                     <OrbitControls />
                     <ambientLight color="weight" intensity={1} />
                     {
-                        cubeArrayState.map((item,i) => {
+                        meshGlobalArray.map((item) => {
                             return (
-                                <Mymesh MeshObj={item} key={i}></Mymesh>
+                                <Mymesh uuid={item.uuid} MeshObj={item} key={item.uuid+1}></Mymesh>
                             )
                         })
                     }

@@ -2,8 +2,19 @@ import React, { memo, useEffect, useRef, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { MeshArray } from '../../utils/MeshArraySelection'
 import MyGui from '../MyGui/index'
+import { useSelector } from 'react-redux'
 const Mymesh = memo((props) => {
-    const { MeshObj = MeshArray[0], guiShow = true } = props
+    const { meshGlobalArray } = useSelector((state) => ({
+        meshGlobalArray: state.cube.meshGlobalArray
+    }))
+    let { MeshObj = MeshArray[0], guiShow = true, uuid } = props
+    if (guiShow) {
+        meshGlobalArray.map(item => {
+            if (item.uuid === uuid) {
+                MeshObj = item
+            }
+        })
+    }
     const meshRef = useRef();
     // 记录鼠标是否悬浮在当前模型
     const [hoverFlag, setHoverFlag] = useState(false)

@@ -17,7 +17,6 @@ const index = memo((props) => {
     const ClickHandle = useCallback(() => {
         dispatch(changeShowParamsAction(true))
         dispatch(changToParamObjAction(Obj))
-
     }, [])
     return (
         <AssetsTabWrapper>
