@@ -1,15 +1,14 @@
 import { memo, useEffect } from 'react'
 import { GUI } from 'dat.gui'
-import { createControlsConfig } from '../../utils/controlsConfig'
+import { createControlsConfig,createModelControlsConfig} from '../../utils/controlsConfig'
 import { useDispatch } from 'react-redux'
 import { changeToMeshGlobaArray } from '../../store/modules/cube'
 const index = memo((props) => {
     const gui = new GUI()
     const { meshRef } = props
-    const dispatch = useDispatch()
     // 创建控件配置
-    const controlsConfig = createControlsConfig(meshRef)
-
+    // const controlsConfig = meshRef.current?createControlsConfig(meshRef.current):createModelControlsConfig(meshRef)
+    const controlsConfig = createControlsConfig(meshRef.current)
     useEffect(() => {
         // 为控制器添加onChange方法
         controlsConfig.forEach((control) => {
@@ -32,7 +31,7 @@ const index = memo((props) => {
     //控件的change事件，一旦触发则向store派发最新的值 
     const handleControlChange = (folder,targetObj) => {
         // store操作....
-        // dispatch(changeToMeshGlobaArray({folder,targetObj}))
+        console.log(targetObj);
     };
 
     return null

@@ -2,10 +2,12 @@ import { Canvas } from '@react-three/fiber'
 import React, { memo, useCallback, useEffect, useState } from 'react'
 import { OrbitControls } from '@react-three/drei'
 import Mymesh from '../Mymesh/Mymesh'
+import MyGltf from '../MyGltf/index'
 import TestMesh from '../../test/Mymesh'
 import { MyCanvasWrapper } from './style'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { changeToMeshGlobaArray } from '../../store/modules/cube'
+
 const index = memo(() => {
     const dispatch = useDispatch()
     //获取cubeArray
@@ -50,9 +52,17 @@ const index = memo(() => {
                     <ambientLight color="weight" intensity={1} />
                     {
                         meshGlobalArray.map((item) => {
-                            return (
-                                <Mymesh uuid={item.uuid} MeshObj={item} key={item.uuid+1}></Mymesh>
-                            )
+                            if (item.Geometry) {
+                                return (
+                                    <Mymesh uuid={item.uuid} MeshObj={item} key={item.uuid}></Mymesh>
+                                )
+                            }
+                            if (item.type === 'GLTF') {
+                                return (
+                                    // <MyGltf uuid={uuid} Obj={item} key={uuid}></MyGltf>
+                                    <MyGltf uuid={item.uuid} Obj={item} key={item.uuid}></MyGltf>
+                                )
+                            }
                         })
                     }
                 </Canvas>

@@ -7,16 +7,23 @@ import { AssetsTabWrapper } from './style'
 import MyGltf from '../../../BaseComponent/MyGltf/index'
 import Mymesh from '../../../BaseComponent/Mymesh/Mymesh'
 // 引入Action
-import { changeShowParamsAction} from '../../../store/modules/control'
-import {changToParamObjAction } from '../../../store/modules/cube'
+import { changeShowParamsAction } from '../../../store/modules/control'
+import { changToParamObjAction,changeToMeshGlobaArray} from '../../../store/modules/cube'
+// 引入uuid
+import { v4 as uuidv4 } from 'uuid'
 const index = memo((props) => {
     // 接收父组件传来的cube信息
     const { Obj } = props
     const dispatch = useDispatch()
     // 单击模型事件
     const ClickHandle = useCallback(() => {
-        dispatch(changeShowParamsAction(true))
-        dispatch(changToParamObjAction(Obj))
+        // 普通立方体模型处理
+        if (Obj.type === 'Geometry') {
+            dispatch(changeShowParamsAction(true))
+            dispatch(changToParamObjAction(Obj))
+        } else if (Obj.type === 'GLTF') {   //普通本地模型不需要构建参数 直接向全局数组添加
+            dispatch(changeToMeshGlobaArray(Obj))
+        }
     }, [])
     return (
         <AssetsTabWrapper>

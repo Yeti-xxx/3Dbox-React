@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+// 引入uuid
+import { v4 as uuidv4 } from 'uuid'
 const cubeSlice = createSlice({
     name: 'cube',
     initialState: {
@@ -25,7 +27,10 @@ const cubeSlice = createSlice({
             state.toParamObj = payload
         },
         changeToMeshGlobaArray(state,{payload}){
-            state.meshGlobalArray.push(payload[0])
+            if (!payload.uuid) {
+                payload.uuid = uuidv4()
+            }
+            state.meshGlobalArray.push(payload[0]?payload[0]:payload)
             state.cubeArray = []
         }
     }
