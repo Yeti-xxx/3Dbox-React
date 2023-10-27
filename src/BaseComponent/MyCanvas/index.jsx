@@ -1,11 +1,13 @@
 import { Canvas } from '@react-three/fiber'
-import React, { memo, useCallback, useEffect} from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { OrbitControls } from '@react-three/drei'
 import Mymesh from '../Mymesh/Mymesh'
 import MyGltf from '../MyGltf/index'
-import { MyCanvasWrapper } from './style'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { changeToMeshGlobaArray } from '../../store/modules/cube'
+import { MyCanvasWrapper } from './style'
+import MyDirectionalLight from '../Light/MyDirectionalLight/index'
+
 const index = memo(() => {
     const dispatch = useDispatch()
     //获取cubeArray
@@ -47,6 +49,7 @@ const index = memo(() => {
                     <gridHelper args={[10000, 10000, '#903c48', '#4d4d4d']} />
                     {orbitControlsShow && <OrbitControls />}
                     <ambientLight color="weight" intensity={1} />
+                    <MyDirectionalLight/>
                     {
                         meshGlobalArray.map((item) => {
                             if (item.Geometry) {

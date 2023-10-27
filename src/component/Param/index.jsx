@@ -24,7 +24,7 @@ const index = forwardRef((props, ref) => {
                 <div className="input" onChange={handleInputChange}>
                     <input type="text" ref={ref}/>
                 </div>
-            </div>
+            </div> 
         </ParamWrapper>
     )
 })

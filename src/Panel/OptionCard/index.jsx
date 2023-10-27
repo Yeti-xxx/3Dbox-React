@@ -48,7 +48,7 @@ const style = memo((props) => {
                     <div className="createBtn" onClick={e => createClick()}>
                         create
                     </div>
-                </div>
+                </div> 
             </div>
         </OptionCardWrapper>
     )

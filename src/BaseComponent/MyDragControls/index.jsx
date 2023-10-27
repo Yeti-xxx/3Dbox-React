@@ -28,10 +28,6 @@ const index = memo((props) => {
             controlsRef.current.addEventListener("hoveron", handleHoverOn)
             controlsRef.current.addEventListener("hoveroff", handleHoverOff)
         }
-        return () => {
-            controlsRef.current.removeEventListener("hoveron", handleHoverOn)
-            controlsRef.current.removeEventListener("hoveroff", handleHoverOff)
-          }
     }, [children])
     return (
         <group ref={groupRef} >
