@@ -1,9 +1,13 @@
-import React, { memo, useEffect, useRef, useState, useCallback } from 'react'
+import React, { memo, useRef, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { MeshArray } from '../../utils/MeshArraySelection'
 import MyGui from '../MyGui/index'
 import { useSelector } from 'react-redux'
+import MyDragControls from '../MyDragControls/index'
+import { useThree } from "@react-three/fiber"
 const Mymesh = memo((props) => {
+    // 获取相机 render scene
+    const { camera, gl, scene } = useThree()
     const { meshGlobalArray } = useSelector((state) => ({
         meshGlobalArray: state.cube.meshGlobalArray
     }))
@@ -13,6 +17,7 @@ const Mymesh = memo((props) => {
             if (item.uuid === uuid) {
                 MeshObj = item
             }
+            return null
         })
     }
     const meshRef = useRef();
@@ -20,24 +25,27 @@ const Mymesh = memo((props) => {
     const [hoverFlag, setHoverFlag] = useState(false)
     // click状态
     const [clickState, setClickState] = useState(false)
-    const hoverHandle = (flag) => {
+    const hoverHandle = useCallback((flag) => {
         if (guiShow) {
             setHoverFlag(flag)
         }
-    }
-    const clickHandle = () => {
+    })
+    const clickHandle = useCallback(() => {
         setClickState(!clickState)
-    }
+    })
     return (
-        <mesh ref={meshRef}
-            onPointerOver={() => hoverHandle(true)}
-            onPointerOut={() => hoverHandle(false)}
-            onClick={() => clickHandle()}>
-            {hoverFlag && <axesHelper args={[5]} />}
-            <MeshObj.Geometry args={MeshObj.args} />
-            <meshStandardMaterial color={hoverFlag ? 'white' : 'skyblue'} />
-            {guiShow && clickState && <MyGui meshRef={meshRef} />}
-        </mesh >
+        <MyDragControls ca={camera} gldom={gl.domElement} scene={scene} guiShow={guiShow}>
+            <mesh ref={meshRef}
+                onPointerOver={() => hoverHandle(true)}
+                onPointerOut={() => hoverHandle(false)}
+                onClick={() => clickHandle()}
+            >
+                {hoverFlag && <axesHelper args={[5]} />}
+                <MeshObj.Geometry args={MeshObj.args} />
+                <meshStandardMaterial color={hoverFlag ? 'white' : 'skyblue'} />
+                {guiShow && clickState && <MyGui meshRef={meshRef} />}
+            </mesh >
+        </MyDragControls>
     )
 })
 Mymesh.propTypes = {
