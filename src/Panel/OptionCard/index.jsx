@@ -5,39 +5,51 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux'
 import Param from '../../component/Param/index'
 import { changeShowParamsAction } from '../../store/modules/control'
 import { changeCubeArrayAction } from '../../store/modules/cube'
+import { changeLightsArray } from '../../store/modules/lights'
 import { v4 as uuidv4 } from 'uuid'
 // 选项信息卡，用于模型具体数值输入
 const style = memo((props) => {
-    const { toParamObj } = useSelector((state) => ({
+    const { toParamObj, toParamLightObj } = useSelector((state) => ({
         showParams: state.control.showParams,
-        toParamObj: state.cube.toParamObj
+        toParamObj: state.cube.toParamObj,
+        toParamLightObj: state.lights.toParamLightObj
     }), shallowEqual)
+    let param = toParamLightObj.type? toParamLightObj : toParamObj
+    console.log(param);
     const ParamRefArray = useRef([])
     const dispatch = useDispatch()
     const createClick = useCallback(() => {
         ParamRefArray.current.push({ uuid: uuidv4() })
         // 关闭当前组件
         dispatch(changeShowParamsAction(false))
-        // 向cubearray传入设定参数
-        dispatch(changeCubeArrayAction(ParamRefArray.current))
+        if (param.type === 'Geometry') {
+            dispatch(changeCubeArrayAction(ParamRefArray.current))
+        }
+        if (param.type === 'Light') {
+            dispatch(changeLightsArray(ParamRefArray.current))
+        }
     }, [])
     const pushParamRef = (dom) => {
         // 向子组件直接传函数，获取的dom参数就是子组件内部的ref
-        ParamRefArray.current.push(dom)
+        try {
+            ParamRefArray.current.push(dom)
+        } catch (error) {
+
+        }
     }
     return (
         // GLTF模型直接忽略创建参数
-        toParamObj.type !== 'GLTF' && <OptionCardWrapper>
+        param.type !== 'GLTF' && <OptionCardWrapper>
             <div className="container">
                 <div className="cardContext">
                     <div className="title">
                         {
-                            toParamObj.name
+                            param.name
                         }
                     </div>
                     <div className="paramsContext">
                         {
-                            toParamObj.construc.map(item => {
+                            param.construc.map(item => {
                                 const newItme = item.split('-')
                                 return (
                                     <Param title={newItme[1]} key={item} ref={pushParamRef} />
@@ -48,7 +60,7 @@ const style = memo((props) => {
                     <div className="createBtn" onClick={e => createClick()}>
                         create
                     </div>
-                </div> 
+                </div>
             </div>
         </OptionCardWrapper>
     )

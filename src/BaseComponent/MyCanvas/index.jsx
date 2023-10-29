@@ -5,23 +5,29 @@ import Mymesh from '../Mymesh/Mymesh'
 import MyGltf from '../MyGltf/index'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { changeToMeshGlobaArray } from '../../store/modules/cube'
+import { changeToLightsGlobaArray } from '../../store/modules/lights'
 import { MyCanvasWrapper } from './style'
 import MyDirectionalLight from '../Light/MyDirectionalLight/index'
 
 const index = memo(() => {
     const dispatch = useDispatch()
     //获取cubeArray
-    const { cubeArray, meshGlobalArray, orbitControlsShow } = useSelector((state) => ({
+    const { cubeArray, meshGlobalArray, orbitControlsShow, lightsArray, lightsGlobaArray } = useSelector((state) => ({
         cubeArray: state.cube.cubeArray,
         meshGlobalArray: state.cube.meshGlobalArray,
-        orbitControlsShow: state.cube.orbitControlsShow
+        orbitControlsShow: state.cube.orbitControlsShow,
+        lightsArray: state.lights.lightsArray,
+        lightsGlobaArray: state.lights.lightsGlobaArray
     }), shallowEqual)
     // 监听cubeArray
     useEffect(() => {
-        const newArray = filterCubeArray(cubeArray);
+        filterArray(cubeArray, changeToMeshGlobaArray)
     }, [cubeArray])
+    useEffect(() => {
+        filterArray(lightsArray, changeToLightsGlobaArray)
+    }, [lightsArray])
     // cubeArray结构相对复杂，在本组件内新建一个状态接收处理后的数据
-    const filterCubeArray = useCallback((cubeArray) => {
+    const filterArray = useCallback((cubeArray, reducerFn) => {
         if (cubeArray.length === 0) {
             return []
         }
@@ -38,10 +44,16 @@ const index = memo(() => {
                     temp[temp.length - 1].uuid = item2.uuid
                 }
             })
-            dispatch(changeToMeshGlobaArray(temp))
+            dispatch(reducerFn(temp))
         })
         return temp
     })
+    const lightsCreate = (item)=>{
+        switch(item.type){
+            case 'MyDirectionalLight':
+            return <MyDirectionalLight args={item.args}/>
+        }
+    }
     return (
         <MyCanvasWrapper>
             <div className='MyCanvasContainer'>
@@ -49,7 +61,7 @@ const index = memo(() => {
                     <gridHelper args={[10000, 10000, '#903c48', '#4d4d4d']} />
                     {orbitControlsShow && <OrbitControls />}
                     <ambientLight color="weight" intensity={1} />
-                    <MyDirectionalLight/>
+                    {/* <MyDirectionalLight /> */}
                     {
                         meshGlobalArray.map((item) => {
                             if (item.Geometry) {
@@ -63,6 +75,13 @@ const index = memo(() => {
                                     <MyGltf uuid={item.uuid} Obj={item} key={item.uuid}></MyGltf>
                                 )
                             }
+                        })
+                    }
+                    {
+                        lightsGlobaArray.map(item => {
+                            return(
+                                lightsCreate(item)
+                            )
                         })
                     }
                 </Canvas>

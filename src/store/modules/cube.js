@@ -33,6 +33,7 @@ const cubeSlice = createSlice({
             }
             state.meshGlobalArray.push(payload[0]?payload[0]:payload)
             state.cubeArray = []
+            state.toParamObj = []
         },
         changeToOrbitControlsShow(state,{payload}){
             state.orbitControlsShow = payload

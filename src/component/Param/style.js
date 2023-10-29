@@ -8,6 +8,7 @@ export const ParamWrapper = styled.div`
         margin-left: 15px;
         padding: 2px;
         width: ${props=>props.theme.params.width};
+        min-width: 120px;
         .input{
             margin-top: 5px;
             input{
@@ -18,6 +19,9 @@ export const ParamWrapper = styled.div`
                 background-color:#353535;
                 color:#b5b5b5;
             }
+        }
+        .ant-color-picker-trigger{
+            background-color:#353535;
         }
     }
 `

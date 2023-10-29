@@ -3,12 +3,15 @@ import { Canvas } from '@react-three/fiber'
 import React, { memo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { AssetsTabWrapper } from './style'
+import { Tooltip } from 'antd';
 // 组件引入
 import MyGltf from '../../../BaseComponent/MyGltf/index'
 import Mymesh from '../../../BaseComponent/Mymesh/Mymesh'
+import MyDirectionalLight from '../../../BaseComponent/Light/MyDirectionalLight/index'
 // 引入Action
 import { changeShowParamsAction } from '../../../store/modules/control'
-import { changToParamObjAction,changeToMeshGlobaArray} from '../../../store/modules/cube'
+import { changToParamObjAction, changeToMeshGlobaArray } from '../../../store/modules/cube'
+import { changetoParamLightObj } from '../../../store/modules/lights'
 // 引入uuid
 import { v4 as uuidv4 } from 'uuid'
 const index = memo((props) => {
@@ -24,16 +27,34 @@ const index = memo((props) => {
         } else if (Obj.type === 'GLTF') {   //普通本地模型不需要构建参数 直接向全局数组添加
             dispatch(changeToMeshGlobaArray(Obj))
         }
+        switch (Obj.type) {
+            case 'Geometry':
+                dispatch(changeShowParamsAction(true))
+                dispatch(changToParamObjAction(Obj))
+                break
+            case 'GLTF':
+                dispatch(changeToMeshGlobaArray(Obj))
+                break
+            case 'Light':
+                dispatch(changeShowParamsAction(true))
+                dispatch(changetoParamLightObj(Obj))
+                break
+        }
     }, [])
     return (
         <AssetsTabWrapper>
             <div className="cube" onClick={ClickHandle}>
-                <Canvas camera={{ position: [2, 2, 2] }}>
-                    {
-                        Obj.type === 'Geometry' ?
-                            <Mymesh MeshObj={Obj} guiShow={false} /> : <MyGltf Obj={Obj} />
-                    }
-                </Canvas>
+                <Tooltip title={Obj.name}>
+                    <Canvas camera={{ position: [2, 2, 2] }}>
+                        {
+                            Obj.type === 'Geometry' ?
+                                <Mymesh MeshObj={Obj} guiShow={false} /> :
+                                Obj.type === 'GLTF' ?
+                                    <MyGltf Obj={Obj} /> : <MyDirectionalLight />
+                        }
+
+                    </Canvas>
+                </Tooltip>
             </div>
         </AssetsTabWrapper>
     )
