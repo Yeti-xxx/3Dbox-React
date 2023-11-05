@@ -1,17 +1,11 @@
-import React, { memo, useEffect } from 'react'
-import MyCanvas from './BaseComponent/MyCanvas/index'
-import AssetsCard from './Panel/AssetsCard/index'
-import OptionCard from './Panel/OptionCard/index'
-import { shallowEqual, useSelector } from 'react-redux'
+import React, { memo} from 'react'
+import { useRoutes } from 'react-router-dom';
+import routes from './router';
 const App = memo(() => {
-  const { showParams } = useSelector((state) => ({
-    showParams: state.control.showParams,
-  }), shallowEqual)
+
   return (
     <div>
-      <AssetsCard />
-      <MyCanvas />
-      {showParams && <OptionCard />}
+        {useRoutes(routes)}
     </div>
   )
 })

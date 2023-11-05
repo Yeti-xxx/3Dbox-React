@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
-import React, { forwardRef, memo, useCallback, useState } from 'react'
+import React, { forwardRef, useCallback, useState } from 'react'
 import { ParamWrapper } from './style'
-import { ColorPicker, Space } from 'antd'
 // name + input 组件
 const index = forwardRef((props, ref) => {
     const { title } = props
@@ -13,7 +12,7 @@ const index = forwardRef((props, ref) => {
             // 更新状态变量 inputValue
             setInputValue(event.target.value);
         // }
-    })
+    },[])
     return (
         <ParamWrapper>
             <div className="params">

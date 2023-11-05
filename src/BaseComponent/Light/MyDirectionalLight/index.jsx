@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { memo } from 'react'
 import { DirectionalLightHelper } from "three"
 import { useHelper } from "@react-three/drei";
