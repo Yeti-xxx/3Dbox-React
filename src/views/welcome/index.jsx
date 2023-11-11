@@ -20,7 +20,7 @@ const index = memo(() => {
           <Link to={"/work"}>New Work</Link>
         </div>
         <div className="selection">
-          <Link to={"/"}>Exeamples</Link>
+          <Link to={"/exeamples/FPS"}>Exeamples</Link>
         </div>
       </div>
     </WelComWrapper>
