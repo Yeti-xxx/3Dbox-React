@@ -30,6 +30,9 @@ const Player = memo(() => {
     const doJump = () => {
         playRef.current.setLinvel({ x: 0, y: 8, z: 0 })
     }
+    useFrame(() => {
+        TWEEN.update();
+    })
     useFrame((state) => {
         if (!playRef.current) {
             return
@@ -60,10 +63,18 @@ const Player = memo(() => {
         ObjectRef.current.rotation.copy(state.camera.rotation)
         ObjectRef.current.position.copy(state.camera.position).add(state.camera.getWorldDirection(rotation))
 
+        setIsMoving(direction.length() > 0);
+
+        if (swayingAnimation && isSwayingAnimationFinished) {
+            setIsSwayingAnimationFinished(false);
+            swayingAnimation.start();
+        }
     })
+
 
     const setAnimationParams = () => {
         if (!swayingAnimation) return;
+
         swayingAnimation.stop();
         setIsSwayingAnimationFinished(true);
 
@@ -113,11 +124,6 @@ const Player = memo(() => {
     useEffect(() => {
         initSwayingObjectAnimation();
     }, [swayingNewPosition, swayingDuration]);
-
-    useFrame(()=>{
-
-    })
-
 
     return (
         <>
