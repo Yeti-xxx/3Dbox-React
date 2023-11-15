@@ -2,7 +2,7 @@ import React, { memo, useRef, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { MeshArray } from '../../utils/MeshArraySelection'
 import MyGui from '../MyGui/index'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import MyDragControls from '../MyDragControls/index'
 import { useThree } from "@react-three/fiber"
 const Mymesh = memo((props) => {
@@ -10,7 +10,7 @@ const Mymesh = memo((props) => {
     const { camera, gl, scene } = useThree()
     const { meshGlobalArray } = useSelector((state) => ({
         meshGlobalArray: state.cube.meshGlobalArray
-    }))
+    }),shallowEqual)
     let { MeshObj = MeshArray[0], guiShow = true, uuid } = props
     if (guiShow) {
         meshGlobalArray.map(item => {

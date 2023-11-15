@@ -14,7 +14,7 @@ const MyGround = memo(() => {
         <>
             {/* 为地面包裹RigidBody 使得地面可以和物体发生碰撞*/}
             <RigidBody type='fixed' colliders={false}>
-                <mesh position={[0, -5, 0]} rotation-x={-Math.PI / 2}>
+                <mesh receiveShadow position={[0, -5, 0]} rotation-x={-Math.PI / 2}>
                     <planeGeometry args={[500, 500]} />
                     <meshStandardMaterial color='gray' map={texture} map-repeat={[50, 50]} />
                 </mesh>

@@ -6,12 +6,24 @@ import MyGround from './compents/Ground/MyGround'
 import { PointerLockControls } from '@react-three/drei'
 import { Physics, RigidBody } from '@react-three/rapier'
 import Player from './compents/Player/Player'
+import  Weapon  from './compents/Weapon/Weapon'
 
+const shadowOffset = 50
 const index = memo(() => {
   return (
     <FPSWrapper>
       <div className="aim"></div>
-      <Canvas camera={{ fov: 45 ,position:[0,5,0]}}>
+      <Canvas camera={{ fov: 45 ,position:[0,5,0]}} shadows>
+        <directionalLight
+          castShadow
+          intensity={1.8}
+          position={[100,10,0]}
+          shadow-mapSize={4096}
+          shadow-camera-top={shadowOffset}
+          shadow-camera-bottom={-shadowOffset}
+          shadow-camera-left={shadowOffset}
+          shadow-camera-right={-shadowOffset}
+        />
         <ambientLight intensity={1.5} />
         <PointerLockControls />
         {/* 引入物理系统 */}
@@ -21,10 +33,20 @@ const index = memo(() => {
           {/* 玩家 */}
           <Player/>
           <RigidBody>
-            <mesh position={[0, 3, -5]}> <boxGeometry /> </mesh>
+            <mesh castShadow receiveShadow position={[0, 3, -5]}> <boxGeometry /> </mesh>
+          </RigidBody>
+          <RigidBody>
+            <mesh castShadow receiveShadow position={[0, 3, -5]}> <boxGeometry /> </mesh>
+          </RigidBody>
+          <RigidBody>
+            <mesh castShadow receiveShadow position={[0, 3, -5]}> <boxGeometry /> </mesh>
+          </RigidBody>
+          <RigidBody>
+            <mesh castShadow receiveShadow position={[0, 3, -5]}> <boxGeometry /> </mesh>
           </RigidBody>
         </Physics>
         <MySky />
+        <Weapon/>
       </Canvas>
     </FPSWrapper>
   )
