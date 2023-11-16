@@ -32,8 +32,8 @@ const cubeSlice = createSlice({
                 payload.uuid = uuidv4()
             }
             state.meshGlobalArray.push(payload[0]?payload[0]:payload)
-            state.cubeArray = []
-            state.toParamObj = []
+            // state.cubeArray = []
+            // state.toParamObj = []
         },
         changeToOrbitControlsShow(state,{payload}){
             state.orbitControlsShow = payload

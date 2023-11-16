@@ -15,7 +15,6 @@ const style = memo((props) => {
         toParamLightObj: state.lights.toParamLightObj
     }), shallowEqual)
     let param = toParamLightObj.type? toParamLightObj : toParamObj
-    console.log(param);
     const ParamRefArray = useRef([])
     const dispatch = useDispatch()
     const createClick = useCallback(() => {

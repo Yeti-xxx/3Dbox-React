@@ -8,6 +8,7 @@ import { changeToMeshGlobaArray } from '../../store/modules/cube'
 import { changeToLightsGlobaArray } from '../../store/modules/lights'
 import { MyCanvasWrapper } from './style'
 import MyDirectionalLight from '../Light/MyDirectionalLight/index'
+import MypointLight from '../Light/MyPointLight/index'
 
 const index = memo(() => {
     const dispatch = useDispatch()
@@ -62,6 +63,7 @@ const index = memo(() => {
                     {orbitControlsShow && <OrbitControls />}
                     <ambientLight color="weight" intensity={1} />
                     {/* <MyDirectionalLight /> */}
+                    <MypointLight/>
                     {
                         meshGlobalArray.map((item) => {
                             if (item.Geometry) {

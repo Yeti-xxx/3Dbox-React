@@ -30,8 +30,7 @@ const index = memo((props) => {
 
     //控件的change事件，一旦触发则向store派发最新的值 
     const handleControlChange = (folder,targetObj) => {
-        // store操作....
-        console.log(targetObj);
+
     };
 
     return null
