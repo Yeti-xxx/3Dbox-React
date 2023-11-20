@@ -4,7 +4,7 @@ import { OrbitControls } from '@react-three/drei'
 import Mymesh from '../Mymesh/Mymesh'
 import MyGltf from '../MyGltf/index'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { changeToMeshGlobaArray } from '../../store/modules/cube'
+import { RemoveToMeshGlobaArray, changeToMeshGlobaArray } from '../../store/modules/cube'
 import { changeToLightsGlobaArray } from '../../store/modules/lights'
 import { MyCanvasWrapper } from './style'
 import MyDirectionalLight from '../Light/MyDirectionalLight/index'
@@ -49,10 +49,13 @@ const index = memo(() => {
         })
         return temp
     })
-    const lightsCreate = (item)=>{
-        switch(item.type){
+    const lightsCreate = (item) => {
+        // eslint-disable-next-line default-case
+        switch (item.type) {
             case 'MyDirectionalLight':
-            return <MyDirectionalLight args={item.args}/>
+                return <MyDirectionalLight args={item.args} />
+            case 'MyPointLight':
+                return <MypointLight args={item.args} />
         }
     }
     return (
@@ -62,8 +65,6 @@ const index = memo(() => {
                     <gridHelper args={[10000, 10000, '#903c48', '#4d4d4d']} />
                     {orbitControlsShow && <OrbitControls />}
                     <ambientLight color="weight" intensity={1} />
-                    {/* <MyDirectionalLight /> */}
-                    <MypointLight/>
                     {
                         meshGlobalArray.map((item) => {
                             if (item.Geometry) {
@@ -73,7 +74,6 @@ const index = memo(() => {
                             }
                             if (item.type === 'GLTF') {
                                 return (
-                                    // <MyGltf uuid={uuid} Obj={item} key={uuid}></MyGltf>
                                     <MyGltf uuid={item.uuid} Obj={item} key={item.uuid}></MyGltf>
                                 )
                             }
@@ -81,7 +81,7 @@ const index = memo(() => {
                     }
                     {
                         lightsGlobaArray.map(item => {
-                            return(
+                            return (
                                 lightsCreate(item)
                             )
                         })

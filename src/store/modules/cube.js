@@ -32,11 +32,14 @@ const cubeSlice = createSlice({
                 payload.uuid = uuidv4()
             }
             state.meshGlobalArray.push(payload[0]?payload[0]:payload)
-            // state.cubeArray = []
-            // state.toParamObj = []
+            state.cubeArray = []
+            state.toParamObj = []
         },
         changeToOrbitControlsShow(state,{payload}){
             state.orbitControlsShow = payload
+        },
+        RemoveToMeshGlobaArray(state,{payload}){
+            state.meshGlobalArray.splice(payload,1)
         }
     }
 
@@ -46,6 +49,7 @@ export const {
     changeCubeArrayAction,
     changToParamObjAction,
     changeToMeshGlobaArray,
-    changeToOrbitControlsShow
+    changeToOrbitControlsShow,
+    RemoveToMeshGlobaArray
 } = cubeSlice.actions
 export default cubeSlice.reducer

@@ -5,11 +5,20 @@ import MyDirectionLight from './MyDirectionalLight/index'
 
 // Light集中管理
 const Light = memo((props) => {
-    const { minType } = props
-    return
-    (
+    const { minType } = props.LightObj
+    const getLight = (minType) => {
+        switch (minType) {
+            case 'MyDirectionalLight':
+                return <MyDirectionLight {...props}/>
+            case 'MyPointLight':
+                return <MyPointLight {...props}/>
+        }
+    }
+    return (
         <>
-            lights
+            {
+                getLight(minType)
+            }
         </>
     )
 })

@@ -7,4 +7,9 @@ export const MyCanvasWrapper = styled.div`
         background-color: #3c3c3c;
         z-index: -1;
     }
+    .btn{
+        position: absolute;
+        right: 0;
+        z-index: 10;
+    }
 `

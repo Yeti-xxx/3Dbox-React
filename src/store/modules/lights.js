@@ -23,9 +23,9 @@ const LightSlice = createSlice({
             if (!payload.uuid) {
                 payload.uuid = uuidv4()
             }
-            state.lightsGlobaArray.push(payload[0] ? payload[0] : payload)
             // 添加type
-            state.lightsGlobaArray[0].type = state.toParamLightObj.minType
+            state.lightsGlobaArray.push(payload[0] ? payload[0] : payload)
+            state.lightsGlobaArray[state.lightsGlobaArray.length - 1].type = state.toParamLightObj.minType
             state.lightsArray = []
             state.toParamLightObj = []
         },
