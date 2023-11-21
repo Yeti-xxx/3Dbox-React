@@ -11,7 +11,9 @@ const cubeSlice = createSlice({
         },
         // 存储全局的cube数据
         meshGlobalArray:[],
-        orbitControlsShow:true
+        orbitControlsShow:true,
+        // 资源面板中选中的cubeid
+        clickCubeId:0
     },
     reducers: {
         changeCubeArrayAction(state, { payload }) {
@@ -40,6 +42,9 @@ const cubeSlice = createSlice({
         },
         RemoveToMeshGlobaArray(state,{payload}){
             state.meshGlobalArray.splice(payload,1)
+        },
+        changeToClickCubeId(state,{payload}) {
+            state.clickCubeId = payload
         }
     }
 
@@ -50,6 +55,7 @@ export const {
     changToParamObjAction,
     changeToMeshGlobaArray,
     changeToOrbitControlsShow,
-    RemoveToMeshGlobaArray
+    RemoveToMeshGlobaArray,
+    changeToClickCubeId
 } = cubeSlice.actions
 export default cubeSlice.reducer

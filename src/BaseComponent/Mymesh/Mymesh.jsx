@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState, useCallback } from 'react'
+import React, { memo, useRef, useState, useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { MeshArray } from '../../utils/MeshArraySelection'
 import MyGui from '../MyGui/index'
@@ -8,8 +8,9 @@ import { useThree } from "@react-three/fiber"
 const Mymesh = memo((props) => {
     // 获取相机 render scene
     const { camera, gl, scene } = useThree()
-    const { meshGlobalArray } = useSelector((state) => ({
-        meshGlobalArray: state.cube.meshGlobalArray
+    const { meshGlobalArray,clickCubeId } = useSelector((state) => ({
+        meshGlobalArray: state.cube.meshGlobalArray,
+        clickCubeId:state.cube.clickCubeId
     }),shallowEqual)
     let { MeshObj = MeshArray[0], guiShow = true, uuid } = props
     if (guiShow) {
@@ -33,6 +34,15 @@ const Mymesh = memo((props) => {
     const clickHandle = useCallback(() => {
         setClickState(!clickState)
     })
+    useEffect(()=>{
+        if (clickCubeId===uuid) {
+            hoverHandle(true)
+            clickHandle()
+        }else{
+            hoverHandle(false)
+            
+        }
+    },[clickCubeId])
     return (
         <MyDragControls ca={camera} gldom={gl.domElement} scene={scene} guiShow={guiShow}>
             <mesh ref={meshRef}
