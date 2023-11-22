@@ -40,7 +40,7 @@ const Mymesh = memo((props) => {
             clickHandle()
         }else{
             hoverHandle(false)
-            
+            setClickState(false)
         }
     },[clickCubeId])
     return (

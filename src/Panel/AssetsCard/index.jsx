@@ -54,7 +54,9 @@ const index = memo(() => {
                 )
               })
             }
-          </div> : null
+          </div> 
+          
+          : null
         }
         {
           clickFlag === 2 ? <div className="cubes">
